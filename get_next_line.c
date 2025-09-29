@@ -1,14 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new.c                                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sidna_7 <who??@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 06:18:21 by sidna_7           #+#    #+#             */
-/*   Updated: 2025/09/28 08:02:14 by sidna_7          ###   ########.fr       */
+/*   Updated: 2025/09/28 11:56:29 by sidna_7          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+#endif
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -31,14 +35,17 @@ int	ft_check(char *s, int c)
 	return (0);
 }
 
-char	*ft_read(int fd, char *buffer, char *leftover)
+char	*ft_read(int fd, char *buffer, char **leftover)
 {
 	char	*res;
 	char	*tmp;
 	ssize_t	bytes_read;
 
-	if (leftover)
-		res = ft_strdup(leftover);
+	if (*leftover)
+	{
+		res = *leftover;
+		*leftover = NULL;
+	}
 	else
 		res = ft_strdup("");
 	bytes_read = 1;
@@ -69,7 +76,7 @@ char	*ft_line(char *full_buf)
 	index = 0;
 	if (ft_check(full_buf, 10))
 	{
-		len = ft_line_len(full_buf, 10);
+		len = ft_strlen(full_buf, 10);
 		line = ft_calloc(len + 1, sizeof(char));
 		if (!line)
 			return (NULL);
@@ -117,7 +124,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	full_buf = ft_read(fd, buffer, leftover);
+	full_buf = ft_read(fd, buffer, &leftover);
 	if (!full_buf || !*full_buf)
 	{
 		if (leftover)
