@@ -6,12 +6,12 @@
 /*   By: sidna_7 <who??@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 06:18:21 by sidna_7           #+#    #+#             */
-/*   Updated: 2025/10/01 15:34:52 by sidna_7          ###   ########.fr       */
+/*   Updated: 2025/10/01 16:30:19 by sidna_7          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 1000000
 #endif
 
 #include <unistd.h>
@@ -119,12 +119,16 @@ char	*get_next_line(int fd)
 {
 	static char	*leftover;
 	char		*full_buf;
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	buffer = malloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
 	full_buf = ft_read(fd, buffer, &leftover);
+	free(buffer);
 	if (!full_buf || !*full_buf)
 	{
 		free(full_buf);
