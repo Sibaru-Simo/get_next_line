@@ -6,7 +6,7 @@
 /*   By: sidna_7 <who??@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 08:53:58 by sidna_7           #+#    #+#             */
-/*   Updated: 2025/09/28 09:55:08 by sidna_7          ###   ########.fr       */
+/*   Updated: 2025/10/01 08:28:09 by sidna_7          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,17 @@ char	*ft_strdup(char const *s)
 	size_t	len;
 	char	*d;
 
-	i = 0;
+	if (!s)
+		return (NULL);
 	len = ft_strlen(s, 0);
+	if (len == 0)
+	{
+		d = ft_calloc(1, 1);
+		if (!d)
+			return (NULL);
+		return (d);
+	}
+	i = 0;
 	d = malloc(len + 1);
 	if (!d)
 		return (NULL);

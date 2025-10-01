@@ -6,7 +6,7 @@
 /*   By: sidna_7 <who??@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 06:18:21 by sidna_7           #+#    #+#             */
-/*   Updated: 2025/09/28 11:56:29 by sidna_7          ###   ########.fr       */
+/*   Updated: 2025/10/01 15:34:52 by sidna_7          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_line(char *full_buf)
 	index = 0;
 	if (ft_check(full_buf, 10))
 	{
-		len = ft_strlen(full_buf, 10);
+		len = 1 + ft_strlen(full_buf, 10);
 		line = ft_calloc(len + 1, sizeof(char));
 		if (!line)
 			return (NULL);
@@ -127,6 +127,7 @@ char	*get_next_line(int fd)
 	full_buf = ft_read(fd, buffer, &leftover);
 	if (!full_buf || !*full_buf)
 	{
+		free(full_buf);
 		if (leftover)
 			free(leftover);
 		leftover = NULL;
